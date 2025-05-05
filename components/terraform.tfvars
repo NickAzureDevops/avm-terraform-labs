@@ -18,5 +18,7 @@ subnets = {
 }
 tags = {
   type = "avm"
-  env  = "demo"
+  env  = "dev"
 }
+
+location = "uksouth"
