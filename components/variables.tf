@@ -28,7 +28,7 @@ variable "resource_name_location_short" {
 variable "resource_name_workload" {
   type        = string
   description = "The name segment for the workload"
-  default     = "terraform-avm"
+  default     = "demo"
   validation {
     condition     = can(regex("^[a-z0-9]+$", var.resource_name_workload))
     error_message = "The name segment for the workload must only contain lowercase letters and numbers"
@@ -73,9 +73,13 @@ variable "resource_name_templates" {
     network_security_group_name         = "nsg-$${workload}-$${environment}-$${location}-$${sequence}"
     nat_gateway_name                    = "nat-$${workload}-$${environment}-$${location}-$${sequence}"
     nat_gateway_public_ip_name          = "pip-nat-$${workload}-$${environment}-$${location}-$${sequence}"
-    key_vault_name                      = "kv$${environment}$${location_short}-$${sequence}"
+    key_vault_name                      = "kv$${workload}$${environment}$${location_short}$${sequence}$${uniqueness}"
     storage_account_name                = "sto$${workload}$${environment}$${location_short}$${sequence}$${uniqueness}"
     user_assigned_managed_identity_name = "uami-$${workload}-$${environment}-$${location}-$${sequence}"
+    virtual_machine_name                = "vm-$${workload}-$${environment}-$${location}-$${sequence}"
+    network_interface_name              = "nic-$${workload}-$${environment}-$${location}-$${sequence}"
+    bastion_host_public_ip_name         = "pip-bas-$${workload}-$${environment}-$${location}-$${sequence}"
+    bastion_host_name                   = "bas-$${workload}-$${environment}-$${location}-$${sequence}"
   }
 }
 
@@ -96,4 +100,10 @@ variable "subnets" {
 variable "tags" {
   type        = map(string)
   description = "A map of tags to add to all resources"
+}
+
+variable "enable_encryption_at_host" {
+  type        = bool
+  description = "Enable encryption at host"
+  default     = false
 }
